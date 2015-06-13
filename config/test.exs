@@ -31,10 +31,10 @@ config :phoenix_ws_proxy, PhoenixWsProxy.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :phoenix_ws_proxy, PhoenixWsProxy.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "phoenix_ws_proxy_test",
-  size: 1,
-  max_overflow: false
+# config :phoenix_ws_proxy, PhoenixWsProxy.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: "postgres",
+#   password: "postgres",
+#   database: "phoenix_ws_proxy_test",
+#   size: 1,
+#   max_overflow: false
