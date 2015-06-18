@@ -29,7 +29,8 @@ config :phoenix_ws_proxy,
 # meaningful, we use this information when generating URLs.
 config :phoenix_ws_proxy, PhoenixWsProxy.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com"]
+  url: [host: "example.com"],
+  server: true
 
 # ## SSL Support
 #
