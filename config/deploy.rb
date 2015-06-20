@@ -44,7 +44,6 @@ namespace :deploy do
       end
     end
   end
-  after :update, :build
 
   desc 'Status'
   task :status do
@@ -75,8 +74,7 @@ namespace :deploy do
     end
   end
 
-
-
   after :publishing, :restart
+  after :updated, :build
 
 end
