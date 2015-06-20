@@ -34,7 +34,6 @@ defmodule PhoenixWsProxy.Mixfile do
       {:httpoison, "~> 0.6.2"},
       {:cowboy, "~> 1.0"},
       {:exrm, "~> 0.16.0"},
-      {:relx, github: "erlware/relx"},
       {:global, "~> 1.0.0"}
     ]
   end
