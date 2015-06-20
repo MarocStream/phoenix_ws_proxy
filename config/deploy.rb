@@ -35,7 +35,6 @@ set :default_env, { MIX_ENV: fetch(:stage), PORT: 4000 }
 # set :keep_releases, 5
 
 namespace :deploy do
-  after :update, :build
 
   task :build do
     on roles(:app), in: :sequence, wait: 5 do
@@ -45,6 +44,7 @@ namespace :deploy do
       end
     end
   end
+  after :update, :build
 
   desc 'Status'
   task :status do
