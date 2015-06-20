@@ -21,9 +21,9 @@ defmodule PhoenixWsProxy.ConnCase do
       use Phoenix.ConnTest
 
       # Alias the data repository and import query/model functions
-      alias PhoenixWsProxy.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      # alias PhoenixWsProxy.Repo
+      # import Ecto.Model
+      # import Ecto.Query, only: [from: 2]
 
       # Import URL helpers from the router
       import PhoenixWsProxy.Router.Helpers
@@ -34,9 +34,9 @@ defmodule PhoenixWsProxy.ConnCase do
   end
 
   setup tags do
-    unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(PhoenixWsProxy.Repo, [])
-    end
+    # unless tags[:async] do
+    #   Ecto.Adapters.SQL.restart_test_transaction(PhoenixWsProxy.Repo, [])
+    # end
 
     :ok
   end

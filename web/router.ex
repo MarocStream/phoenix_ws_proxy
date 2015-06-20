@@ -19,7 +19,7 @@ defmodule PhoenixWsProxy.Router do
   end
 
   socket "/ws", PhoenixWsProxy do
-    channel "*", ProxyChannel
+    channel "proxy:*", ProxyChannel
   end
 
   # Other scopes may use custom stacks.
