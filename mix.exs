@@ -33,7 +33,7 @@ defmodule PhoenixWsProxy.Mixfile do
       {:phoenix_live_reload, "~> 0.3.2"},
       {:httpoison, "~> 0.6.2"},
       {:cowboy, "~> 1.0"},
-      {:exrm, "~> 0.17.0"},
+      {:exrm, "~> 0.16.0"},
       {:relx, github: "erlware/relx"},
       {:global, "~> 1.0.0"}
     ]
