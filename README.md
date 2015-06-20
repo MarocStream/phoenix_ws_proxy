@@ -35,6 +35,8 @@ And then in an *unauthorized* route:
       render json: {session_id: Rails.application.message_verifier(:session_auth).verify(params[:token])}
     end
 
+*Note: This will not work with a cookie store. Suggest using active record store instead.*
+
 In `config/#{Mix.env}.exs` configure according to your application.
 
 #### Start up Phoenix

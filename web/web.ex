@@ -45,6 +45,7 @@ defmodule PhoenixWsProxy.Web do
       use Phoenix.Channel
       alias Phoenix.Socket
       import PhoenixWsProxy.Http
+      alias PhoenixWsProxy.Config
       require Logger
 
     end
