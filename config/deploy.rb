@@ -48,29 +48,29 @@ namespace :deploy do
   desc 'Status'
   task :status do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy ping')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} ping")
     end
   end
 
   desc 'Start application'
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy start')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} start")
     end
   end
 
   desc 'Stop application'
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy stop')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} stop")
     end
   end
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy stop')
-      execute release_path.join('bin/phoenix_ws_proxy start')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} stop")
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} start")
     end
   end
 
