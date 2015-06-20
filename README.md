@@ -1,5 +1,7 @@
 # Phoenix Websocket Proxy
 
+[![Build Status](https://semaphoreci.com/api/v1/projects/753c9c85-1a35-47d9-b1da-54b23cadffa6/461558/badge.svg)](https://semaphoreci.com/mgwidmann/phoenix_ws_proxy)
+
 ## Making Websockets Work
 
 ### Phoenix
