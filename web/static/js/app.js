@@ -1,17 +1,21 @@
 var socket = null;
+var channel = null;
 var join = function(url, auth){
   if(socket) {
     socket.disconnect();
   }
-  socket = new Phoenix.Socket("/ws");
+  socket = new Phoenix.Socket("/proxy", {});
   socket.connect();
-  socket.join(url, auth).receive("ok", function(channel) {
+  channel = socket.chan(url, auth);
 
-    channel.on("data:update", function(message) {
-      $("#data-container").text(JSON.stringify(message, null, 2));
-    });
-
+  channel.on("data:update", function(message) {
+    $("#data-container").text(JSON.stringify(message, null, 2));
   });
+
+  channel.join({foo: "bar"}).receive("ok", function(){
+    console.log("JOINED");
+  });
+
 };
 
 var url = null; // Start out in a "is a change" state

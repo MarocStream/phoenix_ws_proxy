@@ -18,10 +18,6 @@ defmodule PhoenixWsProxy.Router do
     get "/", PageController, :index
   end
 
-  socket "/ws", PhoenixWsProxy do
-    channel "proxy:*", ProxyChannel
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", PhoenixWsProxy do
   #   pipe_through :api
