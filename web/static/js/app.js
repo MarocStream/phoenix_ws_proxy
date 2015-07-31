@@ -5,7 +5,7 @@ var join = function(url, auth){
   }
   socket = new Phoenix.Socket("/ws");
   socket.connect();
-  socket.join(url, auth).receive("ok", function(channel) {
+  socket.join("proxy:" + url, {session_id: auth, shared: true}).receive("ok", function(channel) {
 
     channel.on("data:update", function(message) {
       $("#data-container").text(JSON.stringify(message, null, 2));
