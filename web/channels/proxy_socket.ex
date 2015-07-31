@@ -3,12 +3,14 @@ defmodule PhoenixWsProxy.ProxySocket do
 
   channel "proxy:*", PhoenixWsProxy.ProxyChannel
 
+  transport :websocket, Phoenix.Transports.WebSocket
+  transport :longpoll, Phoenix.Transports.LongPoll
+
   def connect(_info, socket) do
-    IO.puts "Connecting to PROXY SOCKET"
     {:ok, socket}
   end
 
-  def id(_socket), do: "#{__MODULE__}"
+  def id(_socket), do: nil
 
 
 end

@@ -6,13 +6,13 @@ var join = function(url, auth){
   }
   socket = new Phoenix.Socket("/proxy", {});
   socket.connect();
-  channel = socket.chan(url, auth);
+  channel = socket.chan("proxy:" + url);
 
   channel.on("data:update", function(message) {
     $("#data-container").text(JSON.stringify(message, null, 2));
   });
 
-  channel.join({foo: "bar"}).receive("ok", function(){
+  channel.join({session_id: auth, shared: true}).receive("ok", function(){
     console.log("JOINED");
   });
 

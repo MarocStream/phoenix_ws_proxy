@@ -7,7 +7,6 @@ defmodule PhoenixWsProxy.ProxyChannel do
   def join("proxy://" <> url, info, socket), do: join("proxy:/" <> url, info, socket)
   def join("proxy:/" <> url, info, socket), do: join("proxy:" <> url, info, socket)
   def join("proxy:" <> url, info, socket) do
-    IO.puts "Joining to PROXY SOCKET"
     socket = assign(socket, :url, Path.join(Config.base_url, url))
       |> assign(:headers, setup_headers(info["session_id"]))
       |> assign(:shared, info["shared"])
