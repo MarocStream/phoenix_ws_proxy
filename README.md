@@ -22,7 +22,7 @@ Take the `web/static/vendor/phoenix.js` and include in your application.
 
 Add the following routes: (call them whatever you want)
 
-    get '/session/auth', controller: SessionController, action: :auth
+    get '/sessions/auth', controller: SessionController, action: :auth
     get '/sessions/reauth/:token', controller: SessionController, action: :reauth
 
 Add the following to your Rails application in an authorized route:
@@ -51,17 +51,18 @@ Run the following from this directory:
 #### Connect to the websocket
 
     // Get a token for a logged in user
-    $.getJSON('/session/auth', function(auth){
+    $.getJSON('/sessions/auth', function(auth){
       var url = '/somethings/5.json'
 
       // Create a new socket and connect
-      socket = new Phoenix.Socket("http://localhost:4000/ws"); // Change for production
+      var socket = new Phoenix.Socket("http://localhost:4000/proxy"); // Change for production
       socket.connect();
-      socket.join(url, auth.token).receive("ok", function(channel) {
+      var channel = socket.chan("proxy:" + url, {session_id: auth.token, shared: true});
 
-        channel.on("data:update", function(data) {
-          // Here is where your data comes in when it has changed!
-        });
-
+      channel.on("data:update", function(data){
+        // Here is where your data comes in when it has changed!
       });
+
+      channel.join().receive("ok", function(messages){ });
+
     })
