@@ -6,7 +6,8 @@ defmodule PhoenixWsProxy.ProxySocket do
   transport :websocket, Phoenix.Transports.WebSocket
   transport :longpoll, Phoenix.Transports.LongPoll
 
-  def connect(_info, socket) do
+  def connect(info, socket) do
+    IO.puts "Connection started for #{inspect info}"
     {:ok, socket}
   end
 

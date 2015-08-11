@@ -4,16 +4,16 @@ var join = function(url, auth){
   if(socket) {
     socket.disconnect();
   }
-  socket = new Phoenix.Socket("/proxy", {});
+  socket = new Phoenix.Socket("/proxy");
   socket.connect();
-  channel = socket.chan("proxy:" + url);
+  channel = socket.chan("proxy:" + url, {session_id: auth, shared: true});
 
   channel.on("data:update", function(message) {
     $("#data-container").text(JSON.stringify(message, null, 2));
   });
 
-  channel.join({session_id: auth, shared: true}).receive("ok", function(){
-    console.log("JOINED");
+  channel.join().receive("ok", function(messages){
+    console.log("JOINED! Messages: " + JSON.stringify(messages));
   });
 
 };

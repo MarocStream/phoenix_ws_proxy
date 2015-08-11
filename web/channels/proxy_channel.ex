@@ -7,6 +7,7 @@ defmodule PhoenixWsProxy.ProxyChannel do
   def join("proxy://" <> url, info, socket), do: join("proxy:/" <> url, info, socket)
   def join("proxy:/" <> url, info, socket), do: join("proxy:" <> url, info, socket)
   def join("proxy:" <> url, info, socket) do
+    IO.puts "Connection established: #{url} => #{inspect info}"
     socket = assign(socket, :url, Path.join(Config.base_url, url))
       |> assign(:headers, setup_headers(info["session_id"]))
       |> assign(:shared, info["shared"])
@@ -60,8 +61,8 @@ defmodule PhoenixWsProxy.ProxyChannel do
       :no -> # Someone else in the cluster is already watching this URL
         poller = Global.whereis(socket.assigns.url)
         Process.monitor poller # Watch for when they go down
-        socket = Socket.assign(socket, :poller, poller)
-          |> Socket.assign(:data, get_data(poller))
+        socket = assign(socket, :poller, poller)
+          |> assign(:data, get_data(poller))
         push(socket, "data:update", socket.assigns.data)
         socket
     end
