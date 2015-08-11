@@ -1,5 +1,5 @@
 defmodule PhoenixWsProxy.ProxySocket do
-  use Phoenix.Socket
+  use PhoenixWsProxy.Web, :socket
 
   channel "proxy:*", PhoenixWsProxy.ProxyChannel
 
