@@ -1,7 +1,5 @@
 defmodule PhoenixWsProxy.PageController do
-  use PhoenixWsProxy.Web, :controller
-
-  plug :action
+  use PhoenixWsProxy.Web, :controller 
 
   def index(conn, _params) do
     render conn, "index.html"

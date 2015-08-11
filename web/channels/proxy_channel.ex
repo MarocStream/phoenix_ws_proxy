@@ -7,11 +7,12 @@ defmodule PhoenixWsProxy.ProxyChannel do
   def join("proxy://" <> url, info, socket), do: join("proxy:/" <> url, info, socket)
   def join("proxy:/" <> url, info, socket), do: join("proxy:" <> url, info, socket)
   def join("proxy:" <> url, info, socket) do
-    socket = Socket.assign(socket, :url, Path.join(Config.base_url, url))
-      |> Socket.assign(:headers, setup_headers(info["session_id"]))
-      |> Socket.assign(:shared, info["shared"])
+    IO.puts "Connection established: #{url} => #{inspect info}"
+    socket = assign(socket, :url, Path.join(Config.base_url, url))
+      |> assign(:headers, setup_headers(info["session_id"]))
+      |> assign(:shared, info["shared"])
     send self, :setup
-    {:ok, socket}
+    {:ok, nil, socket}
   end
 
   def handle_info(:setup, socket) do
@@ -30,7 +31,7 @@ defmodule PhoenixWsProxy.ProxyChannel do
     {:noreply, socket}
   end
 
-  def handle_info({:DOWN, _ref, :process, poller, _reason}, %Socket{assigns: %{poller: poller}} = socket) do
+  def handle_info({:DOWN, _ref, :process, poller, _reason}, %Phoenix.Socket{assigns: %{poller: poller}} = socket) do
     socket = setup(socket, socket.assigns.shared) # Recompete to become poller
     {:noreply, socket}
   end
@@ -51,17 +52,17 @@ defmodule PhoenixWsProxy.ProxyChannel do
   end
 
   defp setup(socket, shared) when shared in [true, nil] do
-    socket = Socket.assign(socket, :shared, true)
+    socket = assign(socket, :shared, true)
     case Global.register(self, socket.assigns.url, &Global.random_exit/3) do
       :yes -> # The first to look at this URL
         send self, :poll
-        socket = Socket.assign(socket, :poller, self)
+        socket = assign(socket, :poller, self)
         socket
       :no -> # Someone else in the cluster is already watching this URL
         poller = Global.whereis(socket.assigns.url)
         Process.monitor poller # Watch for when they go down
-        socket = Socket.assign(socket, :poller, poller)
-          |> Socket.assign(:data, get_data(poller))
+        socket = assign(socket, :poller, poller)
+          |> assign(:data, get_data(poller))
         push(socket, "data:update", socket.assigns.data)
         socket
     end
@@ -86,7 +87,7 @@ defmodule PhoenixWsProxy.ProxyChannel do
       else
         push(socket, "data:update", data)
       end
-      socket = Socket.assign(socket, :data, data)
+      socket = assign(socket, :data, data)
     end
     sleep_time = trunc(time * Config.sleep_factor / 1000)
     min_sleep = Config.min_sleep
