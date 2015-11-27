@@ -23,7 +23,7 @@ set :deploy_to, '/var/www/phoenix_ws_proxy'
 set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %W{config/staging.exs config/prod.exs config/prod.secret.exs}
+# set :linked_files, %W{config/staging.exs config/prod.exs config/prod.secret.exs}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -35,7 +35,6 @@ set :default_env, { MIX_ENV: fetch(:stage), PORT: 4000 }
 # set :keep_releases, 5
 
 namespace :deploy do
-  after :update, :build
 
   task :build do
     on roles(:app), in: :sequence, wait: 5 do
@@ -49,43 +48,33 @@ namespace :deploy do
   desc 'Status'
   task :status do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy ping')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} ping")
     end
   end
 
   desc 'Start application'
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy start')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} start")
     end
   end
 
   desc 'Stop application'
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy stop')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} stop")
     end
   end
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute release_path.join('bin/phoenix_ws_proxy stop')
-      execute release_path.join('bin/phoenix_ws_proxy start')
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} stop")
+      execute release_path.join("rel/#{fetch(:application)}/bin/#{fetch(:application)} start")
     end
   end
-
-
 
   after :publishing, :restart
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
+  after :updated, :build
 
 end
