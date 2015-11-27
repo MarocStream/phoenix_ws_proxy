@@ -47,8 +47,9 @@ defmodule PhoenixWsProxy.ProxyChannel do
     end
   end
 
-  defp setup(_socket, false) do
+  defp setup(socket, false) do
     send(self, :poll) # Do the polling ourselves
+    socket
   end
 
   defp setup(socket, shared) when shared in [true, nil] do
