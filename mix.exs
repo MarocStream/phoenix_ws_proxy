@@ -29,14 +29,14 @@ defmodule PhoenixWsProxy.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:phoenix, "~> 0.15"},
-      {:phoenix_html, "~> 1.4"},
+      {:phoenix, "~> 1.0.3"},
+      {:phoenix_html, "~> 2.2.0"},
       {:httpoison, "~> 0.6.2"},
       {:cowboy, "~> 1.0"},
-      {:exrm, "~> 0.16.0"},
+      {:exrm, "~> 1.0.0-rc5"},
       {:global, "~> 1.0.0"},
       # Dev
-      {:phoenix_live_reload, "~> 0.5", only: :dev}
+      {:phoenix_live_reload, "~> 1.0", only: :dev}
     ]
   end
 end
