@@ -6,9 +6,12 @@ defmodule PhoenixWsProxy.Endpoint do
     at: "/", from: :phoenix_ws_proxy,
     only: ~w(css images js favicon.ico robots.txt)
 
+  socket "/proxy", PhoenixWsProxy.ProxySocket
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
   end
@@ -26,8 +29,7 @@ defmodule PhoenixWsProxy.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_phoenix_ws_proxy_key",
-    signing_salt: "PfyPCCxf",
-    encryption_salt: "Jora6G3V"
+    signing_salt: "PfyPCCxf"
 
-  plug :router, PhoenixWsProxy.Router
+  plug PhoenixWsProxy.Router
 end

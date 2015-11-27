@@ -43,10 +43,16 @@ defmodule PhoenixWsProxy.Web do
   def channel do
     quote do
       use Phoenix.Channel
-      alias Phoenix.Socket
       import PhoenixWsProxy.Http
+      alias PhoenixWsProxy.Config
       require Logger
 
+    end
+  end
+
+  def socket do
+    quote do
+      use Phoenix.Socket
     end
   end
 
