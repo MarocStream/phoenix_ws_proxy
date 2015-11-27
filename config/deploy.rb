@@ -23,7 +23,7 @@ set :deploy_to, '/var/www/phoenix_ws_proxy'
 set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %W{config/staging.exs config/prod.exs config/prod.secret.exs}
+# set :linked_files, %W{config/staging.exs config/prod.exs config/prod.secret.exs}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -35,7 +35,6 @@ set :default_env, { MIX_ENV: fetch(:stage), PORT: 4000 }
 # set :keep_releases, 5
 
 namespace :deploy do
-  after :update, :build
 
   task :build do
     on roles(:app), in: :sequence, wait: 5 do
@@ -45,6 +44,8 @@ namespace :deploy do
       end
     end
   end
+
+  after :updated, :build
 
   desc 'Status'
   task :status do
