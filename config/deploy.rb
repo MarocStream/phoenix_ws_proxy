@@ -1,5 +1,5 @@
 # config valid only for Capistrano 3.1
-lock '3.2.1'
+lock '3.4.0'
 
 set :application, 'phoenix_ws_proxy'
 set :repo_url, 'git@github.com:mgwidmann/phoenix_ws_proxy.git'
@@ -29,7 +29,7 @@ set :pty, true
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
-set :default_env, { MIX_ENV: fetch(:stage), PORT: 4000 }
+set :default_env, { MIX_ENV: fetch(:stage) == 'staging' ? 'staging' : 'prod', PORT: 4000 }
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
@@ -39,7 +39,10 @@ namespace :deploy do
   task :build do
     on roles(:app), in: :sequence, wait: 5 do
       within release_path do
+        execute :mix, 'local.hex', '--force'
+        execute :mix, 'local.rebar', '--force'
         execute :mix, 'deps.get'
+        execute :mix, 'compile'
         execute :mix, 'release'
       end
     end

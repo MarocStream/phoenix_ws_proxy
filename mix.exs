@@ -17,7 +17,7 @@ defmodule PhoenixWsProxy.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {PhoenixWsProxy, []},
-     applications: [:phoenix, :cowboy, :logger, :httpoison]]
+     applications: [:phoenix, :cowboy, :logger, :httpoison, :phoenix_html, :global]]
   end
 
   # Specifies which paths to compile per environment
