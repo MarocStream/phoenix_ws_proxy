@@ -43,6 +43,7 @@ namespace :deploy do
         execute :mix, 'local.rebar', '--force'
         execute :mix, 'deps.get'
         execute :mix, 'compile'
+        execute :echo, "'#{ERB.new(File.new('rel/vm.args').read).result(binding)}'", '> rel/vm.args'
         execute :mix, 'release'
       end
     end
