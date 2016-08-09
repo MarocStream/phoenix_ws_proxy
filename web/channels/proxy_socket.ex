@@ -3,8 +3,8 @@ defmodule PhoenixWsProxy.ProxySocket do
 
   channel "proxy:*", PhoenixWsProxy.ProxyChannel
 
-  transport :websocket, Phoenix.Transports.WebSocket
-  transport :longpoll, Phoenix.Transports.LongPoll
+  transport :websocket, Phoenix.Transports.WebSocket, check_origin: false
+  transport :longpoll, Phoenix.Transports.LongPoll, check_origin: false
 
   def connect(info, socket) do
     IO.puts "Connection started for #{inspect info}"
